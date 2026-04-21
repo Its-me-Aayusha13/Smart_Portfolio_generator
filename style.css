@@ -1,0 +1,153 @@
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #020617;
+  color: white;
+}
+
+.layout {
+  display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 200px;
+  height: 100vh;
+  background: #0f172a;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  color: #8b5cf6;
+}
+
+.sidebar li {
+  margin: 15px 0;
+  cursor: pointer;
+}
+
+/* Main */
+.main {
+  flex: 1;
+  padding: 40px;
+}
+
+/* Hero */
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: 40px;
+  background: linear-gradient(to right, #8b5cf6, #38bdf8);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Profile */
+.profile img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 30px #8b5cf6;
+}
+
+/* Cards */
+.card {
+  background: #0f172a;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+/* Skills */
+.skill {
+  margin-bottom: 10px;
+}
+
+.skill-bar {
+  height: 8px;
+  background: linear-gradient(to right, #8b5cf6, #38bdf8);
+  width: 70%;
+}
+
+/* Projects */
+.project {
+  background: #1e293b;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#contact-section a {
+  color: #38bdf8;
+  text-decoration: none;
+}
+
+#contact-section a:hover {
+  text-decoration: underline;
+}
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 30px;
+}
+
+.sidebar li {
+  margin: 15px 0;
+  cursor: pointer;
+  color: #94a3b8;
+  transition: 0.3s;
+}
+
+.sidebar li:hover {
+  color: white;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+.main {
+  height: 100vh;
+  overflow-y: auto;
+}
+section {
+  margin-bottom: 80px;
+}
+#contact-section a {
+  color: white;          /* 👈 makes text white */
+  text-decoration: none; /* removes underline */
+}
+
+#contact-section a:hover {
+  color: #38bdf8;        /* nice blue on hover */
+}
+#contact-section a {
+  color: white;
+}
+
+#contact-section a:hover {
+  color: #8b5cf6;
+}
+#contact-section a {
+  color: white;
+  transition: 0.3s;
+}
+
+#contact-section a:hover {
+  color: #38bdf8;
+  text-shadow: 0 0 8px #38bdf8;
+}
+#contact-section a {
+  color: white !important;
+  text-decoration: none !important;
+}
+
+#contact-section a:hover {
+  color: #38bdf8 !important;
+}
+a {
+  color: white !important;
+}

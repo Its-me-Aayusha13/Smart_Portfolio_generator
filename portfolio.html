@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Builder</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #020617;
+  color: white;
+}
+
+.container {
+  padding: 40px;
+  text-align: center;
+}
+
+input, textarea {
+  width: 80%;
+  margin: 10px;
+  padding: 12px;
+  border-radius: 5px;
+  border: none;
+}
+
+button {
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.layout {
+  display: flex;
+}
+
+.sidebar {
+  width: 220px;
+  background: #0f172a;
+  padding: 20px;
+  height: 100vh;
+}
+
+.main {
+  flex: 1;
+  padding: 40px;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.card {
+  background: #0f172a;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+.skill-bar {
+  height: 6px;
+  background: #38bdf8;
+  margin-top: 5px;
+}
+
+.nav {
+  list-style: none;
+  padding: 0;
+}
+
+.nav li {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.nav li:hover {
+  color: #38bdf8;
+}
+
+#contact-section a {
+  color: white;
+  text-decoration: none;
+}
+
+#contact-section a:hover {
+  color: #00eaff;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    text-align: center;
+  }
+
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  input, textarea {
+    width: 95%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- FORM -->
+<div id="formPage" class="container">
+
+  <h1>🚀 Portfolio Builder</h1>
+
+  <input id="name">
+  <textarea id="bio" placeholder="Bio"></textarea>
+  <input id="skills" placeholder="Skills (comma separated)">
+
+  <h3>Education</h3>
+  <input id="class10" placeholder="10th (School + Year)">
+  <input id="class12" placeholder="+2 (College + Year)">
+  <input id="bachelor" placeholder="Bachelor (College + Year)">
+  <input id="master" placeholder="Master (College + Year)">
+  <input id="phd" placeholder="PhD (College + Year)">
+
+  <input id="projects" placeholder="Projects (comma separated)">
+  <input id="github" placeholder="GitHub link">
+  <input id="linkedin" placeholder="LinkedIn link">
+  <input id="email" placeholder="Email">
+  <input id="phone" placeholder="Phone">
+
+  <input type="file" id="image">
+
+  <br>
+  <button onclick="generate()">Generate Portfolio</button>
+</div>
+
+
+<!-- PORTFOLIO -->
+<div id="portfolioPage" style="display:none;">
+
+  <div class="layout">
+
+    <div class="sidebar">
+      <h2>Welcome</h2>
+
+      <ul class="nav">
+        <li onclick="scrollToSection('hero')">About</li>
+        <li onclick="scrollToSection('skills-section')">Skills</li>
+        <li onclick="scrollToSection('education-section')">Education</li>
+        <li onclick="scrollToSection('projects-section')">Projects</li>
+        <li onclick="scrollToSection('contact-section')">Contact</li>
+      </ul>
+    </div>
+
+    <div class="main">
+
+      <!-- ABOUT -->
+      <section class="hero" id="hero">
+        <div>
+          <h1 id="pname"></h1>
+          <p id="pbio"></p>
+        </div>
+
+        <div class="profile">
+          <img id="pimg">
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section class="card" id="skills-section">
+        <h2>Skills</h2>
+        <div id="pskills"></div>
+      </section>
+
+      <!-- EDUCATION -->
+      <section class="card" id="education-section">
+        <h2>Education</h2>
+        <p><strong>10th:</strong> <span id="p10"></span></p>
+        <p><strong>+2:</strong> <span id="p12"></span></p>
+        <p><strong>Bachelor:</strong> <span id="pbachelor"></span></p>
+        <p><strong>Master:</strong> <span id="pmaster"></span></p>
+        <p><strong>PhD:</strong> <span id="pphd"></span></p>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="card" id="projects-section">
+        <h2>Projects</h2>
+        <div id="pprojects"></div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="card" id="contact-section">
+        <h2>Contact</h2>
+        <p>📧 <a id="pemail"></a></p>
+        <p>📱 <a id="pphone"></a></p>
+        <p><a id="pgithub" target="_blank">GitHub</a></p>
+        <p><a id="plinkedin" target="_blank">LinkedIn</a></p>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+
+<script>
+let imageData = "";
+
+// image upload
+document.getElementById("image").addEventListener("change", function(e){
+  const reader = new FileReader();
+  reader.onload = () => imageData = reader.result;
+  reader.readAsDataURL(e.target.files[0]);
+});
+
+function generate() {
+
+  // switch pages
+  document.getElementById("formPage").style.display = "none";
+  document.getElementById("portfolioPage").style.display = "block";
+
+  // ✅ NAME & BIO (FIXED)
+  document.getElementById("pname").innerText =
+    document.getElementById("name").value || "Your Name";
+
+  document.getElementById("pbio").innerText =
+    document.getElementById("bio").value || "Your bio";
+
+  // ✅ SKILLS (FIXED)
+  const skills = document.getElementById("skills").value.split(",");
+  const pskills = document.getElementById("pskills");
+  pskills.innerHTML = "";
+
+  skills.forEach(s => {
+    if(s.trim() !== ""){
+      pskills.innerHTML += `<p>${s.trim()}</p>`;
+    }
+  });
+
+  // ✅ EDUCATION (FIXED)
+  document.getElementById("p10").innerText =
+    document.getElementById("class10").value || "NA";
+
+  document.getElementById("p12").innerText =
+    document.getElementById("class12").value || "NA";
+
+  document.getElementById("pbachelor").innerText =
+    document.getElementById("bachelor").value || "NA";
+
+  document.getElementById("pmaster").innerText =
+    document.getElementById("master").value || "NA";
+
+  document.getElementById("pphd").innerText =
+    document.getElementById("phd").value || "NA";
+
+  // ✅ PROJECTS (FIXED)
+  const projects = document.getElementById("projects").value.split(",");
+  const pprojects = document.getElementById("pprojects");
+  pprojects.innerHTML = "";
+
+  projects.forEach(p => {
+    if(p.trim() !== ""){
+      pprojects.innerHTML += `<p>🔹 ${p.trim()}</p>`;
+    }
+  });
+
+  // ✅ LINKS (FIXED)
+  document.getElementById("pgithub").href =
+    document.getElementById("github").value;
+
+  document.getElementById("plinkedin").href =
+    document.getElementById("linkedin").value;
+
+  // ✅ PHONE (FIXED)
+  document.getElementById("pphone").innerText =
+    document.getElementById("phone").value;
+
+  document.getElementById("pphone").href =
+    "tel:" + document.getElementById("phone").value;
+
+  // ✅ IMAGE
+  document.getElementById("pimg").src =
+    imageData || "https://via.placeholder.com/150";
+
+    document.getElementById("pemail").innerText =
+  document.getElementById("email").value;
+
+document.getElementById("pemail").href =
+  "mailto:" + document.getElementById("email").value;
+}
+
+// scroll
+function scrollToSection(id) {
+  document.getElementById(id).scrollIntoView({
+    behavior: "smooth"
+  });
+}
+</script>
+
+</body>
+</html>
